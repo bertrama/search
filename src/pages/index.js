@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import {
-  Loading,
   Margins,
   Heading,
   TextInput,
@@ -12,16 +11,12 @@ import {
   TYPOGRAPHY
 } from '@umich-lib/core'
 
+import { useSearch } from '../components/search'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { useSearch } from '../components/search'
 
-const IndexPage = () => {
-  const [
-    {
-      status,
-      results,
-    }] = useSearch()
+function IndexPage() {
+  const [{ results }] = useSearch()
   return (
     <Layout>
       <SEO keywords={[`University of Michigan Library`, `Search`, `Catalog`]} />
@@ -191,8 +186,6 @@ function ResultPreview({ uid }) {
 function Metadata({ uid }) {
   const [{ records }] = useSearch()
   const { fields } = records[uid]
-
-  console.log('fields', fields)
 
   const data = fields.filter(({uid}) => [
     'brief_description',
