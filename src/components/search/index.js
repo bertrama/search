@@ -4,9 +4,6 @@ import React, {
   useReducer,
   useEffect
 } from 'react';
-import { Pride } from 'pride'
-
-Pride.Settings.datastores_url = 'https://search.lib.umich.edu/spectrum'
 
 /*
   https://medium.com/simply/state-management-with-react-hooks-and-context-api-at-10-lines-of-code-baf6be8302c
@@ -106,6 +103,7 @@ function SearchState ({ children }) {
 }
 
 let searcher
+let Pride
 
 function Search() {
   const [{ status, run, query }, dispatch] = useSearch()
@@ -212,7 +210,10 @@ function Search() {
       searcher = new Pride.Util.SearchSwitcher(searches[0], searches.slice(1, searches.length))
     }
 
-    if (status === 'initializing') {
+    if (typeof window !== `undefined` && status === 'initializing') {
+      Pride = require('pride').Pride
+      Pride.Settings.datastores_url = 'https://search.lib.umich.edu/spectrum'
+
       Pride.init({
         success: () => {
           dispatch({
@@ -234,7 +235,6 @@ function Search() {
 
   return null
 }
-
 
 
 //  The API endpoint that Pride will talk to.

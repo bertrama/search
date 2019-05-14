@@ -16,15 +16,28 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 function IndexPage() {
-  const [{ results }] = useSearch()
+  const inBrowser = typeof window !== `undefined`
+
   return (
     <Layout>
       <SEO keywords={[`University of Michigan Library`, `Search`, `Catalog`]} />
+      {inBrowser && (
+        <SearchContainer />
+      )}
+    </Layout>
+  )
+}
+
+function SearchContainer() {
+  const [{ results }, dispatch] = useSearch()
+
+  return (
+    <React.Fragment>
       <SearchBox />
       {results && (
         <Results />
       )}
-    </Layout>
+    </React.Fragment>
   )
 }
 
