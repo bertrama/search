@@ -8,7 +8,7 @@ import {
   MEDIA_QUERIES,
   Icon,
   COLORS,
-  TYPOGRAPHY
+  TYPOGRAPHY,
 } from '@umich-lib/core'
 
 import { useSearch } from '../components/search'
