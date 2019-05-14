@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chat, UniversalHeader, GlobalStyleSheet } from "@umich-lib/core"
+import { UniversalHeader, GlobalStyleSheet } from "@umich-lib/core"
 import Search from './src/components/search'
 
 export const wrapPageElement = ({ element }) => {
@@ -7,10 +7,9 @@ export const wrapPageElement = ({ element }) => {
     <React.Fragment>
       <GlobalStyleSheet />
       <UniversalHeader />
-        <Search>
-          {element}
-        </Search>
-      <Chat fixed />
+      <Search>
+        {element}
+      </Search>
     </React.Fragment>
   )
 }
