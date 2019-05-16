@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from 'gatsby'
 import {
   Margins,
   Heading,
@@ -33,6 +34,7 @@ function SearchContainer() {
 
   return (
     <React.Fragment>
+      <Link to="/catalog">Catalog</Link>
       <SearchBox />
       {results && (
         <Results />
@@ -185,8 +187,9 @@ function ResultPreview({ uid }) {
           fontWeight: '600',
           ...TYPOGRAPHY['XS'],
           textDecoration: 'none',
+          boxShadow: `inset 0px -1px ${COLORS.teal['400']}`,
           ':hover': {
-            boxShadow: `inset 0px -1px ${COLORS.teal['400']}`
+            boxShadow: `inset 0px -2px ${COLORS.teal['400']}`
           }
         }}
       >{names}</a>
