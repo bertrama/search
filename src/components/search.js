@@ -132,19 +132,16 @@ let searcher
 let Pride
 
 function Search({ children }) {
-  const [{ status, run, query }, dispatch] = useSearch()
+  const [{ status, run, search }, dispatch] = useSearch()
 
   useEffect(() => {
     if (searcher && run) {
       
       searcher.set({
-        field_tree: Pride.FieldTree.parseField('all_fields', query),
+        field_tree: Pride.FieldTree.parseField('all_fields', search.query),
         page: 1,
         count: 10
       }).run()
-      
-
-      console.log('run search', true)
 
       dispatch({
         type: 'clearResults'
