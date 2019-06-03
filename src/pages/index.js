@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { Link } from 'gatsby'
 import {
   Margins,
   Heading,
@@ -10,6 +9,7 @@ import {
   Icon,
   COLORS,
   TYPOGRAPHY,
+  Link
 } from '@umich-lib/core'
 
 import { useSearch } from '../components/search'
@@ -34,7 +34,6 @@ function SearchContainer() {
 
   return (
     <React.Fragment>
-      <Link to="/catalog">Catalog</Link>
       <SearchBox />
       {results && (
         <Results />
@@ -47,15 +46,15 @@ function SearchBox() {
   const [{ query, status }, dispatch] = useSearch()
 
   return (
-    <div aria-label="search box">
+    <div>
       <Margins>
         <form
           onSubmit={(e) => {
             e.preventDefault()
 
             dispatch({
-              type: 'setRun',
-              run: true
+              type: 'setSearchRequested',
+              searchRequested: true
             })
           }}
           css={{
@@ -63,8 +62,10 @@ function SearchBox() {
             maxWidth: '42rem',
             margin: '0 auto',
             padding: `${SPACING['M']} 0`,
-            marginTop: status === 'searching' ? 0 : '30vh'
+            marginTop: status === 'searching' ? 0 : '33vh',
+            background: 'white'
           }}
+          role="search"
         >
           <div css={{
             display: 'flex',
@@ -75,7 +76,7 @@ function SearchBox() {
           }}>
             <TextInput
               id="search-query"
-              labelText="Search terms"
+              labelText="query"
               type="search"
               hideLabel
               name="query"
@@ -123,8 +124,10 @@ function Results() {
                   marginBottom: SPACING['2XL'],
                   minHeight: results && results[d_uid] ? 'none' : '28rem'
                 }}
+                role="section"
+                aria-labelledby={d_uid + "-results"}
               >
-                <Heading size="L" level={2} css={{
+                <Heading size="L" level={2} id={d_uid + "-results"} css={{
                   marginBottom: SPACING['M']
                 }}>{metadata_key[d_uid].name}</Heading>
 
@@ -180,19 +183,11 @@ function ResultPreview({ uid }) {
       borderBottom: `solid 1px ${COLORS.neutral[100]}`,
       paddingBottom: SPACING['M'],
       marginBottom: SPACING['M']
-    }} role="region" aria-label="result">
-      <a
+    }}>
+      <Link
         href={`https://search.lib.umich.edu/${metadata_key[datastore].slug}/record/${metadata.uid}`}
-        css={{
-          fontWeight: '600',
-          ...TYPOGRAPHY['XS'],
-          textDecoration: 'none',
-          boxShadow: `inset 0px -1px ${COLORS.teal['400']}`,
-          ':hover': {
-            boxShadow: `inset 0px -2px ${COLORS.teal['400']}`
-          }
-        }}
-      >{names}</a>
+        css={{ fontSize: '1.15rem', fontWeight: '600' }}
+      >{names}</Link>
 
       <Metadata uid={uid} />
     </div>

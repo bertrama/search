@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "dependencies": {
     "@umich-lib/core": "latest",
+    "fast-deep-equal": "^2.0.1",
     "gatsby": "^2.4.2",
     "gatsby-image": "^2.0.41",
     "gatsby-plugin-emotion": "^4.0.6",
@@ -13,8 +14,10 @@
     "gatsby-plugin-sharp": "^2.0.36",
     "gatsby-source-filesystem": "^2.0.33",
     "gatsby-transformer-sharp": "^2.1.19",
+    "gatsby-transformer-yaml": "^2.1.12",
     "pride": "git://github.com/mlibrary/pride.git",
     "prop-types": "^15.7.2",
+    "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"

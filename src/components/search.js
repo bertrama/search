@@ -4,6 +4,7 @@ import React, {
   useReducer,
   useEffect
 } from 'react';
+import SearchDriver from './search-driver'
 
 /*
   https://medium.com/simply/state-management-with-react-hooks-and-context-api-at-10-lines-of-code-baf6be8302c
@@ -25,13 +26,26 @@ export const useSearch = () => useContext(StateContext);
 
 function SearchState ({ children }) {
   const initialState = {
-    status: 'initializing',
+    /*
+      Status can be one of:
+      - awaiting-initialization
+      - pride-failed
+      - ready-to-search
+      - searching
+    */
+    status: 'awaiting-initialization',
     results: null,
+    searchRequested: false,
     run: false,
-    query: ''
+    search: {
+      query: ''
+    },
+    lastSearch: null
   };
   
   function reducer(state, action) {
+    console.log('state', state)
+
     switch (action.type) {
       case 'setStatus':
         return {
@@ -57,13 +71,20 @@ function SearchState ({ children }) {
       case 'setRun':
         return {
           ...state,
-          run: action.run,
-          status: 'searching'
+          run: action.run
+        }
+      case 'setSearchRequested':
+        return {
+          ...state,
+          searchRequested: action.searchRequested
         }
       case 'setQuery':
         return {
           ...state,
-          query: action.query
+          search: {
+            ...state.search,
+            query: action.query
+          }
         }
       case 'addRecords':
         return {
@@ -86,6 +107,11 @@ function SearchState ({ children }) {
           ...state,
           results: null
         }
+      case 'setLastSearch':
+        return {
+          ...state,
+          lastSearch: state.search
+        }
       default:
         return state;
     }
@@ -105,16 +131,20 @@ function SearchState ({ children }) {
 let searcher
 let Pride
 
-function Search() {
+function Search({ children }) {
   const [{ status, run, query }, dispatch] = useSearch()
 
   useEffect(() => {
     if (searcher && run) {
+      
       searcher.set({
         field_tree: Pride.FieldTree.parseField('all_fields', query),
         page: 1,
         count: 10
       }).run()
+      
+
+      console.log('run search', true)
 
       dispatch({
         type: 'clearResults'
@@ -210,7 +240,7 @@ function Search() {
       searcher = new Pride.Util.SearchSwitcher(searches[0], searches.slice(1, searches.length))
     }
 
-    if (typeof window !== `undefined` && status === 'initializing') {
+    if (typeof window !== `undefined` && status === 'awaiting-initialization') {
       Pride = require('pride').Pride
       Pride.Settings.datastores_url = 'https://search.lib.umich.edu/spectrum'
 
@@ -218,7 +248,7 @@ function Search() {
         success: () => {
           dispatch({
             type: 'setStatus',
-            status: 'success'
+            status: 'ready-to-search'
           })
 
           setup()
@@ -226,43 +256,19 @@ function Search() {
         failure: () => {
           dispatch({
             type: 'setStatus',
-            status: 'error'
+            status: 'pride-failed'
           })
         }
       })
     }
   }, [])
 
-  return null
+  return (
+    <React.Fragment>
+      <SearchDriver />
+      {children}
+    </React.Fragment>
+  )
 }
-
-
-//  The API endpoint that Pride will talk to.
-/*
-Pride.Settings.datastores_url = 'https://search.lib.umich.edu/spectrum'
-
-function PrideComponent() {
-  const [{}, dispatch] = useSearch();
-
-  useEffect(() => {
-    Pride.init({
-      success: () => {
-        dispatch({
-          type: 'setStatus',
-          status: 'initialized'
-        })
-      },
-      failure: () => {
-        dispatch({
-          type: 'setStatus',
-          status: 'error'
-        })
-      }
-    })
-  }, [])
-
-  return null
-}
-*/
 
 export default SearchState
