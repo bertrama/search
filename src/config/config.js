@@ -1,7 +1,7 @@
 const config = {
   spectrum: {
-    production: window.location.origin + '/spectrum',
-    development: process.env.SPECTRUM_URL || 'https://search-staging.www.lib.umich.edu/spectrum',
+      production:  "http://localhost:30101/spectrum",
+    development: "http://localhost:30101/spectrum"
   },
   loginUrl: {
     production: window.location.origin + '/login',
