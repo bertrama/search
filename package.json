@@ -28,7 +28,7 @@
     "numeral": "^2.0.4",
     "object-path": "^0.11.4",
     "prejudice": "git://github.com/mlibrary/prejudice.git",
-    "pride": "git://github.com/mlibrary/pride.git#SEARCH-824_ampersands_and_at_signs",
+      "pride": "git://github.com/mlibrary/pride.git",
     "prop-types": "^15.7.2",
     "qs": "^6.6.0",
     "react": "^16.8.4",
