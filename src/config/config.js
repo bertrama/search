@@ -1,11 +1,11 @@
 const config = {
   spectrum: {
-      production:  "http://localhost:30101/spectrum",
-    development: "http://localhost:30101/spectrum"
+      production:  process.env.SPECTRUM_URL || window.location.origin + '/spectrum'
+      development: process.env.SPECTRUM_URL || window.location.origin + '/spectrum'
   },
   loginUrl: {
     production: window.location.origin + '/login',
-    development: process.env.LOGIN_URL ||'https://search-staging.www.lib.umich.edu/login',
+    development: process.env.SPECTRUM_LOGIN_URL ||'https://search-staging.www.lib.umich.edu/login',
   }[process.env.NODE_ENV],
   datastores: {
     list: [
