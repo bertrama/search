@@ -1,6 +1,6 @@
 const config = {
   spectrum: {
-      production:  process.env.SPECTRUM_URL || window.location.origin + '/spectrum'
+      production:  process.env.SPECTRUM_URL || window.location.origin + '/spectrum',
       development: process.env.SPECTRUM_URL || window.location.origin + '/spectrum'
   },
   loginUrl: {
