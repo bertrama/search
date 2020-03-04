@@ -6,9 +6,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup
+        run: echo $EVENT
+        env:
+          EVENT: ${{ tojson( github.event.release.upload_url }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
@@ -18,8 +22,6 @@ jobs:
         run: npm run build
       - name: Package
         run: tar -C build --transform s/./search/ -czf search.tar.gz .
-      - name: Debug
-        run: echo "github.event.upload_url ${{ github.event.release.upload_url }}"
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
