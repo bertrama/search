@@ -18,12 +18,13 @@ jobs:
         run: npm run build
       - name: Package
         run: tar -C build --transform s/./search/ -czf search.tar.gz .
+      - run: echo "github.event.upload_url ${{ github.event.release.upload_url }}"
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./search.tar.gz
           asset_name: search.tar.gz
           asset_content_type: application/gzip
