@@ -7,15 +7,18 @@ jobs:
   update_csl:
     runs-on: ubuntu-latest
     steps:
+      - name: Construct the target branch name
+        id: date
+        run: echo "::set-output name=branch::$(date +'%Y-%m-%d-update-csl-files')"
       - uses: actions/checkout@v2
-      - run: "npm install && npm run update:csl"
+      - run: "npm run update:csl"
       - uses: gr2m/create-or-update-pull-request-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           title: "Update CSL files"
           body: "Update CSL files"
-          branch: "cron-update-csl-files"
+          branch: ${{ steps.date.outputs.branch }}
           reviewers: bertrama
           path: public/citations/
           commit-message: "Update CSL files"
