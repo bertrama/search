@@ -17,3 +17,4 @@ jobs:
           branch: "cron-update-csl-files"
           reviewers: bertrama
           path: public/citations/
+          commit-message: "Updating csl files."
