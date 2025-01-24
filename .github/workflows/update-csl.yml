@@ -1,7 +1,7 @@
 name: Update CSL files
 on:
   schedule:
-    - cron: "10 * * * *"
+    - cron: "*/10 * * * *"
 
 jobs:
   update_csl:
