@@ -1,0 +1,18 @@
+name: Update CSL files
+on:
+  schedule:
+    - cron: "10 * * * *"
+
+jobs:
+  update_csl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "npm install && npm run update:csl"
+      - uses: gr2m/create-or-update-pull-request-action@v1
+        with:
+          title: "Update CSL files"
+          body: "Update CSL files"
+          branch: "cron-update-csl-files"
+          reviewers: bertrama
+          path: public/citations/
